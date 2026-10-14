@@ -1,7 +1,7 @@
 {
-  "name": "stepup-server",
+  "name": "solestride-server",
   "version": "1.0.0",
-  "description": "Backend for StepUp, an online shoe store",
+  "description": "Backend for SoleStride, an online shoe store",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
