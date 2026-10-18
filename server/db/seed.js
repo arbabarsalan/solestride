@@ -66,10 +66,10 @@ async function seed() {
     for (const [name, catSlug, brand, description, priceCents, sizes, colors] of products) {
       const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
       const result = await client.query(
-        `INSERT INTO products (category_id, name, slug, brand, description, price_cents, sizes, colors, stock)
-         VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9)
+        `INSERT INTO products (category_id, name, slug, brand, description, price_cents, sizes, colors, stock, image_url)
+         VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, $10)
          ON CONFLICT (slug) DO NOTHING`,
-        [catId[catSlug], name, slug, brand, description, priceCents, JSON.stringify(sizes), JSON.stringify(colors), 40]
+        [catId[catSlug], name, slug, brand, description, priceCents, JSON.stringify(sizes), JSON.stringify(colors), 40, `/assets/${slug}.jpg`]
       );
       inserted += result.rowCount;
     }
