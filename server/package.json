@@ -7,7 +7,7 @@
     "migrate": "node db/migrate.js",
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node test/productQuery.test.js",
+    "test": "node --test test/",
     "seed": "node db/seed.js"
   },
   "dependencies": {
