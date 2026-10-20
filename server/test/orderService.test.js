@@ -53,3 +53,55 @@ test("buildShippingAddress trims and keeps only known fields", () => {
 test("the two payment methods are cod and stripe", () => {
   assert.deepEqual(PAYMENT_METHODS, ["cod", "stripe"]);
 });
+
+// Edge cases for validation and address building
+
+
+test("validateOrderInput flags every missing field at once", () => {
+  const errors = validateOrderInput({});
+  for (const field of ["full_name", "phone", "address_line1", "city", "postal_code"]) {
+    assert.ok(errors.some((e) => e.startsWith(field)), `missing ${field} in ${errors}`);
+  }
+  assert.ok(errors.some((e) => e.startsWith("payment_method")));
+});
+
+test("validateOrderInput rejects whitespace-only fields", () => {
+  const errors = validateOrderInput({
+    full_name: "   ",
+    phone: "  ",
+    address_line1: " ",
+    city: "  ",
+    postal_code: " ",
+    payment_method: "cod",
+  });
+  assert.equal(errors.length, 5);
+});
+
+test("validateOrderInput rejects unknown payment methods", () => {
+  const errors = validateOrderInput({
+    full_name: "Ali", phone: "0300", address_line1: "Street 1",
+    city: "Peshawar", postal_code: "25000", payment_method: "bitcoin",
+  });
+  assert.equal(errors.length, 1);
+  assert.ok(errors[0].includes("cod"));
+});
+
+test("validateOrderInput accepts a valid COD order", () => {
+  const errors = validateOrderInput({
+    full_name: "Ali", phone: "03001234567", address_line1: "Street 1",
+    city: "Peshawar", postal_code: "25000", payment_method: "cod",
+  });
+  assert.deepEqual(errors, []);
+});
+
+test("buildShippingAddress trims and drops an empty line2", () => {
+  const addr = buildShippingAddress({
+    full_name: "  Ali Khan ", phone: " 0300 ", address_line1: " Street 1 ",
+    address_line2: "   ", city: " Peshawar ", postal_code: " 25000 ",
+  });
+  assert.equal(addr.full_name, "Ali Khan");
+  assert.equal(addr.phone, "0300");
+  assert.equal(addr.address_line2, null);
+  assert.equal(addr.city, "Peshawar");
+  assert.equal(addr.postal_code, "25000");
+});

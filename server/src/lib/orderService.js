@@ -23,11 +23,12 @@ function validateOrderInput(body) {
 
 // Builds the shipping address object we store as JSONB, trimmed.
 function buildShippingAddress(body) {
+  const line2 = body.address_line2 ? String(body.address_line2).trim() : "";
   return {
     full_name: String(body.full_name).trim(),
     phone: String(body.phone).trim(),
     address_line1: String(body.address_line1).trim(),
-    address_line2: body.address_line2 ? String(body.address_line2).trim() : null,
+    address_line2: line2 ? line2 : null,
     city: String(body.city).trim(),
     postal_code: String(body.postal_code).trim(),
   };
