@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
+import { useCart } from "../context/CartContext.jsx";
 
 const links = [
   { to: "/", label: "Home" },
@@ -7,6 +8,8 @@ const links = [
 ];
 
 export default function Header() {
+  const { count } = useCart();
+
   return (
     <header className="sticky top-0 z-10 border-b border-line bg-canvas/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-shell items-center justify-between px-6">
@@ -26,7 +29,7 @@ export default function Header() {
             </NavLink>
           ))}
           <Link to="/cart" className="hover:text-ink transition-colors">
-            Cart
+            Cart{count > 0 && <span className="ml-1.5 text-xs">({count})</span>}
           </Link>
         </nav>
       </div>
