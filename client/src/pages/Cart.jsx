@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatPKR } from "../lib/format.js";
 import { useCart } from "../context/CartContext.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const SHIPPING_PAISA = 25000;
 const FREE_SHIPPING_THRESHOLD_PAISA = 500000;
 
 export default function Cart() {
   const { items, updateQty, removeItem, count } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const subtotal = items.reduce((sum, i) => sum + i.price_cents * i.qty, 0);
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD_PAISA || subtotal === 0 ? 0 : SHIPPING_PAISA;
@@ -103,11 +106,16 @@ export default function Cart() {
             <span>Total</span>
             <span>{formatPKR(total)}</span>
           </div>
-          <button className="mt-6 w-full bg-ink py-4 text-sm font-medium text-white transition-colors hover:bg-accent">
-            Checkout
+          <button
+            onClick={() => {
+              if (!user) navigate("/login");
+            }}
+            className="mt-6 w-full bg-ink py-4 text-sm font-medium text-white transition-colors hover:bg-accent"
+          >
+            {user ? "Checkout" : "Sign in to check out"}
           </button>
           <p className="mt-3 text-center text-xs text-muted">
-            Cash on delivery available. Checkout sign-in comes next.
+            Cash on delivery available.
           </p>
         </div>
       </div>

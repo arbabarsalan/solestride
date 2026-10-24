@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const links = [
   { to: "/", label: "Home" },
@@ -9,6 +10,7 @@ const links = [
 
 export default function Header() {
   const { count } = useCart();
+  const { user, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-10 border-b border-line bg-canvas/90 backdrop-blur">
@@ -31,6 +33,21 @@ export default function Header() {
           <Link to="/cart" className="hover:text-ink transition-colors">
             Cart{count > 0 && <span className="ml-1.5 text-xs">({count})</span>}
           </Link>
+          {user ? (
+            <>
+              <span className="text-ink">{(user.full_name || user.email).split(" ")[0]}</span>
+              <button
+                onClick={logout}
+                className="transition-colors hover:text-ink"
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="hover:text-ink transition-colors">
+              Sign in
+            </Link>
+          )}
         </nav>
       </div>
     </header>
