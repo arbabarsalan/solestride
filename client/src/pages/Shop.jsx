@@ -81,7 +81,7 @@ export default function Shop() {
       {error && <p className="mt-12 text-sm text-muted">Could not load products right now.</p>}
       {!error && !products && <p className="mt-12 text-sm text-muted">Loading…</p>}
       {products && products.length === 0 && (
-        <p className="mt-12 text-sm text-muted">No shoes in this category yet.</p>
+        <p className="mt-12 text-sm text-muted">Nothing in this category yet.</p>
       )}
       {products && products.length > 0 && (
         <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 lg:grid-cols-4">

@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 // The cart lives entirely on the client until checkout: each line keeps the
 // product snapshot it was added with, so prices stay stable while shopping.
 const CartContext = createContext(null);
-const STORAGE_KEY = "solestride.cart.v1";
+const STORAGE_KEY = "libas.cart.v1";
 
 function readStoredCart() {
   try {

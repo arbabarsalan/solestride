@@ -14,7 +14,7 @@ export default function Header() {
     <header className="sticky top-0 z-10 border-b border-line bg-canvas/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-shell items-center justify-between px-6">
         <Link to="/" className="text-sm font-semibold tracking-[0.2em]">
-          SOLESTRIDE
+          LIBAS
         </Link>
         <nav className="flex items-center gap-8 text-sm text-muted">
           {links.map((l) => (

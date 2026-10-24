@@ -20,11 +20,11 @@ export default function Home() {
         <div>
           <p className="text-xs uppercase tracking-[0.25em] text-muted">New season</p>
           <h1 className="mt-4 text-5xl font-semibold leading-tight md:text-6xl">
-            Shoes, kept simple.
+            Tradition, tailored for today.
           </h1>
           <p className="mt-5 max-w-md leading-relaxed text-muted">
-            A small, honest collection. Sneakers, runners and formals, made to be
-            worn every day and priced without the markup.
+            Eastern wear for every generation. Kurtas, kameez shalwar, lawn, and
+            more, stitched for men, women, and kids and priced without the markup.
           </p>
           <Link
             to="/shop"
@@ -35,8 +35,8 @@ export default function Home() {
         </div>
         <div className="bg-surface">
           <img
-            src="/assets/court-classic-low.jpg"
-            alt="Court Classic Low sneaker"
+            src="/assets/classic-kurta-off-white.jpg"
+            alt="Classic Kurta in off-white"
             className="aspect-[4/5] w-full object-cover"
           />
         </div>

@@ -1,4 +1,4 @@
--- SoleStride initial schema
+-- LIBAS initial schema
 CREATE TABLE users (
   id            SERIAL PRIMARY KEY,
   email         TEXT NOT NULL UNIQUE,

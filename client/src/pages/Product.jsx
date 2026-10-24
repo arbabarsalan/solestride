@@ -75,7 +75,7 @@ export default function Product() {
           <p className="mt-3 text-xl font-medium">{formatPKR(product.price_cents)}</p>
 
           <div className="mt-8">
-            <p className="text-sm font-medium">Size (UK)</p>
+            <p className="text-sm font-medium">Size</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {sizes.map((s) => (
                 <button

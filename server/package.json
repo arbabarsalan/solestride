@@ -1,7 +1,7 @@
 {
-  "name": "solestride-server",
+  "name": "libas-server",
   "version": "1.0.0",
-  "description": "Backend for SoleStride, an online shoe store",
+  "description": "Backend for LIBAS, an Eastern wear store",
   "main": "src/server.js",
   "scripts": {
     "migrate": "node db/migrate.js",

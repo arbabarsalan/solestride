@@ -16,7 +16,7 @@ export default function Cart() {
     return (
       <div className="mx-auto max-w-shell px-6 py-24 text-center">
         <h1 className="text-3xl font-semibold">Your cart is empty</h1>
-        <p className="mt-3 text-muted">Good shoes are waiting.</p>
+        <p className="mt-3 text-muted">Your wardrobe is waiting.</p>
         <Link
           to="/shop"
           className="mt-8 inline-block bg-ink px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-accent"
@@ -48,7 +48,7 @@ export default function Cart() {
                   <Link to={`/product/${item.slug}`} className="mt-1 block font-medium hover:underline">
                     {item.name}
                   </Link>
-                  <p className="mt-1 text-sm text-muted">UK {item.size}</p>
+                  <p className="mt-1 text-sm text-muted">{item.size}</p>
                 </div>
                 <p className="whitespace-nowrap text-sm font-medium">
                   {formatPKR(item.price_cents * item.qty)}

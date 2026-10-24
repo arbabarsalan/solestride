@@ -12,7 +12,7 @@ export default {
         line: "#e7e5e4",
         surface: "#f5f5f4",
         canvas: "#fafaf9",
-        accent: "#c2410c",
+        accent: "#1d5c47",
       },
       maxWidth: {
         shell: "72rem",

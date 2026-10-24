@@ -24,8 +24,8 @@ check("pagination offset math", () => {
 });
 
 check("filter params bind in order and never into countSql", () => {
-  const q = buildProductListQuery({ category: "running", search: "sneaker", minPrice: 5000, maxPrice: 20000 });
-  assert.deepStrictEqual(q.filterParams, ["running", "%sneaker%", 5000, 20000]);
+  const q = buildProductListQuery({ category: "men", search: "kurta", minPrice: 5000, maxPrice: 20000 });
+  assert.deepStrictEqual(q.filterParams, ["men", "%kurta%", 5000, 20000]);
   assert.strictEqual(q.countSql, q.countSql.replace(/\$5|\$6/g, "IMPOSSIBLE"), "count must not bind page params");
   assert.ok(q.sql.includes("c.slug = $1"));
   assert.ok(q.sql.includes("ORDER BY p.created_at DESC"));
@@ -53,7 +53,7 @@ check("bad price range rejected", () => {
 
 check("category must be a slug", () => {
   assert.ok(buildProductListQuery({ category: "Shoes; DROP" }).error);
-  assert.strictEqual(buildProductListQuery({ category: "running-shoes" }).filterParams[0], "running-shoes");
+  assert.strictEqual(buildProductListQuery({ category: "winter-shawls" }).filterParams[0], "winter-shawls");
 });
 
 check("search is trimmed and parameterized", () => {

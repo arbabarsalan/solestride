@@ -1,6 +1,6 @@
-# SoleStride
+# LIBAS
 
-A full-stack e-commerce store for shoes, built to production standards.
+A full-stack e-commerce store for Eastern wear, built to production standards.
 
 - **Backend:** Node.js, Express, PostgreSQL, JWT authentication
 - **Frontend:** React (Vite), Tailwind CSS
