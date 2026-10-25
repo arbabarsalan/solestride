@@ -107,9 +107,7 @@ export default function Cart() {
             <span>{formatPKR(total)}</span>
           </div>
           <button
-            onClick={() => {
-              if (!user) navigate("/login");
-            }}
+            onClick={() => navigate(user ? "/checkout" : "/login")}
             className="mt-6 w-full bg-ink py-4 text-sm font-medium text-white transition-colors hover:bg-accent"
           >
             {user ? "Checkout" : "Sign in to check out"}
