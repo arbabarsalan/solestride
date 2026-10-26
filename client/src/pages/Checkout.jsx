@@ -145,6 +145,9 @@ export default function Checkout() {
         >
           Continue shopping
         </Link>
+        <Link to="/account/orders" className="mt-10 ml-6 text-sm text-muted underline underline-offset-4 transition-colors hover:text-ink">
+          View your orders
+        </Link>
       </div>
     );
   }

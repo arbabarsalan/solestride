@@ -35,7 +35,9 @@ export default function Header() {
           </Link>
           {user ? (
             <>
-              <span className="text-ink">{(user.full_name || user.email).split(" ")[0]}</span>
+              <Link to="/account/orders" className="text-ink transition-colors hover:text-accent">
+                {(user.full_name || user.email).split(" ")[0]}
+              </Link>
               <button
                 onClick={logout}
                 className="transition-colors hover:text-ink"
