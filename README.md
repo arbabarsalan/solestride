@@ -7,6 +7,24 @@ A full-stack e-commerce store for Eastern wear, built to production standards.
 - **Features:** product catalog, cart, checkout, orders, payments (Stripe test mode + cash on delivery), and a complete admin portal (products, categories, orders, dashboard stats)
 
 Built in small, readable commits; see the commit history for the order things were added.
+## Docker (dev stack)
+
+Docker Compose brings up PostgreSQL 16 and the api server; migrations and the
+seed run automatically when the api container boots. No database setup needed.
+
+```bash
+docker compose up --build
+```
+
+- `db`      PostgreSQL 16 (user/pass/db: `libas`), data kept in the `libas_pgdata` volume
+- `api`     the server on http://localhost:5000 (schema migrated, catalog seeded on start)
+- client    run it on the host: `cd client && npm install && npm run dev`
+            (its Vite proxy already points `/api` at localhost:5000)
+
+Stripe test keys are optional: set `STRIPE_SECRET_KEY` and
+`STRIPE_WEBHOOK_SECRET` in `docker-compose.yml` for the Stripe flow;
+cash on delivery works without them.
+
 ## Backend
 
 The API lives in `server/`. To run it locally you need Node.js 20+ and a PostgreSQL database.
