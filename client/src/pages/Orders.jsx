@@ -94,9 +94,10 @@ export default function Orders() {
 
       <div className="mt-10 divide-y divide-line border-y border-line">
         {orders.map((order) => (
-          <div
+          <Link
             key={order.id}
-            className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 py-6"
+            to={`/account/orders/${order.id}`}
+            className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 py-6 transition-colors hover:bg-surface"
           >
             <div className="min-w-40">
               <p className="font-medium">Order #{order.id}</p>
@@ -109,7 +110,7 @@ export default function Orders() {
             <div className={`text-sm ${STATUS_CLASS[order.status] || "text-muted"}`}>
               {order.status}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
