@@ -6,6 +6,7 @@ import Product from "./pages/Product.jsx";
 import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Orders from "./pages/Orders.jsx";
+import OrderDetail from "./pages/OrderDetail.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFound from "./pages/NotFound.jsx";
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/account/orders" element={<Orders />} />
+        <Route path="/account/orders/:id" element={<OrderDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
