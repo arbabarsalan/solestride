@@ -184,7 +184,7 @@ export default function Checkout() {
                 value={form[field.key]}
                 onChange={(e) => update(field.key, e.target.value)}
                 autoComplete={field.autoComplete}
-                className="mt-1.5 w-full border border-line bg-canvas px-3 py-2.5 text-sm outline-none focus:border-ink"
+                className="mt-1.5 w-full border border-line bg-canvas px-3 py-2.5 text-sm focus:border-ink"
               />
             </div>
           ))}
@@ -198,7 +198,7 @@ export default function Checkout() {
               value={form.address_line2}
               onChange={(e) => update("address_line2", e.target.value)}
               autoComplete="address-line2"
-              className="mt-1.5 w-full border border-line bg-canvas px-3 py-2.5 text-sm outline-none focus:border-ink"
+              className="mt-1.5 w-full border border-line bg-canvas px-3 py-2.5 text-sm focus:border-ink"
             />
           </div>
 
