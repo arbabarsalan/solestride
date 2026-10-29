@@ -51,7 +51,7 @@ export default function Product() {
   }
 
   return (
-    <div className="mx-auto max-w-shell px-6 py-12">
+    <div className="mx-auto max-w-shell px-6 py-16">
       <nav className="text-sm text-muted">
         <Link to="/shop" className="hover:text-ink">Shop</Link>
         <span className="mx-2">/</span>
