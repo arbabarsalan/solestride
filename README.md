@@ -73,3 +73,14 @@ The server listens on `PORT` (default 5000) and serves the product images from `
 ```bash
 npm test   # unit tests for pricing, product queries and order creation
 ```
+## Tests
+
+```bash
+cd server
+npm test
+```
+
+The suite covers order validation and pricing, cart quantity rules, product
+query parsing, and the Stripe webhook route: valid and invalid signatures, the
+pending-to-paid transition, and failed payments, all with the database and
+Stripe calls stubbed so it runs anywhere Node runs.
