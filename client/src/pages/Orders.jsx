@@ -3,19 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { api, ApiError } from "../lib/api.js";
 import { formatPKR } from "../lib/format.js";
 import { useAuth } from "../context/AuthContext.jsx";
-
-const STATUS_CLASS = {
-  pending: "text-muted",
-  paid: "text-accent",
-  shipped: "text-accent",
-  delivered: "text-accent",
-  cancelled: "text-red-700",
-};
-
-const PAYMENT_LABEL = {
-  cod: "Cash on delivery",
-  stripe: "Stripe",
-};
+import { PaymentBadge, StatusBadge } from "../components/OrderBadges.jsx";
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-PK", {
@@ -103,12 +91,12 @@ export default function Orders() {
               <p className="font-medium">Order #{order.id}</p>
               <p className="mt-1 text-sm text-muted">{formatDate(order.created_at)}</p>
             </div>
-            <div className="text-sm text-muted">
-              {PAYMENT_LABEL[order.payment_method] || order.payment_method}
+            <div>
+              <PaymentBadge method={order.payment_method} />
             </div>
             <div className="font-medium">{formatPKR(order.total_cents)}</div>
-            <div className={`text-sm ${STATUS_CLASS[order.status] || "text-muted"}`}>
-              {order.status}
+            <div>
+              <StatusBadge status={order.status} />
             </div>
           </Link>
         ))}
