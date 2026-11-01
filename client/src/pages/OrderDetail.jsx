@@ -3,19 +3,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { api, ApiError } from "../lib/api.js";
 import { formatPKR } from "../lib/format.js";
 import { useAuth } from "../context/AuthContext.jsx";
-
-const STATUS_CLASS = {
-  pending: "text-muted",
-  paid: "text-accent",
-  shipped: "text-accent",
-  delivered: "text-accent",
-  cancelled: "text-red-700",
-};
-
-const PAYMENT_LABEL = {
-  cod: "Cash on delivery",
-  stripe: "Stripe",
-};
+import { PaymentBadge, StatusBadge } from "../components/OrderBadges.jsx";
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-PK", {
@@ -121,13 +109,11 @@ export default function OrderDetail() {
     <div className="mx-auto max-w-shell px-6 py-16">
       <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
         <h1 className="text-3xl font-semibold">Order #{order.id}</h1>
-        <span className={`text-sm ${STATUS_CLASS[order.status] || "text-muted"}`}>
-          {order.status}
-        </span>
+        <StatusBadge status={order.status} />
       </div>
-      <p className="mt-1 text-sm text-muted">
-        Placed {formatDate(order.created_at)} ·{" "}
-        {PAYMENT_LABEL[order.payment_method] || order.payment_method}
+      <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+        <span>Placed {formatDate(order.created_at)}</span>
+        <PaymentBadge method={order.payment_method} />
       </p>
 
       <div className="mt-10 divide-y divide-line border-y border-line">
