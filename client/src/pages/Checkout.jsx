@@ -4,6 +4,7 @@ import { api, ApiError } from "../lib/api.js";
 import { formatPKR } from "../lib/format.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useCart } from "../context/CartContext.jsx";
+import { PaymentBadge } from "../components/OrderBadges.jsx";
 
 const SHIPPING_PAISA = 25000;
 const FREE_SHIPPING_THRESHOLD_PAISA = 500000;
@@ -227,6 +228,25 @@ export default function Checkout() {
               </label>
             </div>
           </fieldset>
+
+          <div className="border border-line bg-canvas p-4">
+            <h2 className="text-xs uppercase tracking-widest text-muted">Review</h2>
+            <div aria-live="polite" className="mt-3 space-y-1 text-sm">
+              <p className="font-medium">{form.full_name.trim() || "Your name"}</p>
+              <p className="text-muted">
+                {form.address_line1.trim()
+                  ? [form.address_line1.trim(), form.address_line2.trim()].filter(Boolean).join(", ")
+                  : "Street address"}
+              </p>
+              <p className="text-muted">
+                {[form.city.trim(), form.postal_code.trim()].filter(Boolean).join(" ") || "City and postal code"}
+              </p>
+              <p className="text-muted">{form.phone.trim() || "Phone"}</p>
+              <div className="pt-1.5">
+                <PaymentBadge method={paymentMethod} />
+              </div>
+            </div>
+          </div>
 
           {error && (
             <p role="alert" className="text-sm text-red-700">
