@@ -5,6 +5,8 @@ import { formatPKR } from "../lib/format.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { PaymentBadge, StatusBadge } from "../components/OrderBadges.jsx";
 
+const STATUSES = ["pending", "paid", "shipped", "delivered", "cancelled"];
+
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-PK", {
     year: "numeric",
@@ -21,6 +23,7 @@ export default function AdminOrders() {
   const navigate = useNavigate();
   const [orders, setOrders] = useState(null);
   const [error, setError] = useState("");
+  const [rowError, setRowError] = useState("");
 
   useEffect(() => {
     if (!user || user.role !== "admin") return;
@@ -48,6 +51,26 @@ export default function AdminOrders() {
   }, [user, token, navigate]);
 
   if (!user || user.role !== "admin") return <Navigate to="/" replace />;
+
+  async function changeStatus(order, status) {
+    if (status === order.status) return;
+    setRowError("");
+    const previous = orders;
+    setOrders((rows) =>
+      rows.map((row) => (row.id === order.id ? { ...row, status } : row))
+    );
+    try {
+      const data = await api.patch(`/admin/orders/${order.id}/status`, { status }, token);
+      setOrders((rows) =>
+        rows.map((row) => (row.id === order.id ? { ...row, status: data.order.status } : row))
+      );
+    } catch (err) {
+      setOrders(previous);
+      setRowError(
+        err instanceof ApiError ? err.message : "Could not update the status. Try again."
+      );
+    }
+  }
 
   if (error) {
     return (
@@ -108,8 +131,25 @@ export default function AdminOrders() {
                     <PaymentBadge method={order.payment_method} />
                   </td>
                   <td className="py-4">
-                    <StatusBadge status={order.status} />
-</td>
+                    <div className="flex items-center gap-3">
+                      <StatusBadge status={order.status} />
+                      <label className="sr-only" htmlFor={`status-${order.id}`}>
+                        Change status for order #{order.id}
+                      </label>
+                      <select
+                        id={`status-${order.id}`}
+                        value={order.status}
+                        onChange={(e) => changeStatus(order, e.target.value)}
+                        className="border border-line bg-canvas px-2 py-1 text-xs text-muted focus:border-ink"
+                      >
+                        {STATUSES.map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
