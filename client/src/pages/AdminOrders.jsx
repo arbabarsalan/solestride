@@ -126,12 +126,12 @@ export default function AdminOrders() {
             <tbody className="divide-y divide-line">
               {orders.map((order) => (
                 <tr key={order.id} className="transition-colors hover:bg-surface">
-                  <td className="py-4 pr-6 font-medium">#{order.id}</td>
+                  <td className="whitespace-nowrap py-4 pr-6 font-medium">#{order.id}</td>
                   <td className="py-4 pr-6 text-muted">{formatDate(order.created_at)}</td>
                   <td className="py-4 pr-6">
                     {order.customer_name || order.customer_email}
                   </td>
-                  <td className="py-4 pr-6">{formatPKR(order.total_cents)}</td>
+                  <td className="whitespace-nowrap py-4 pr-6">{formatPKR(order.total_cents)}</td>
                   <td className="py-4 pr-6">
                     <PaymentBadge method={order.payment_method} />
                   </td>
