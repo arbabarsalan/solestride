@@ -104,7 +104,12 @@ export default function AdminOrders() {
       )}
 
       {orders.length === 0 ? (
-        <p className="mt-10 text-muted">No orders yet.</p>
+        <div className="mt-12">
+          <p className="text-muted">No orders yet.</p>
+          <p className="mt-2 text-sm text-muted">
+            When customers check out, their orders land here.
+          </p>
+        </div>
       ) : (
         <div className="mt-10 overflow-x-auto border-y border-line">
           <table className="w-full min-w-3xl text-left text-sm">
