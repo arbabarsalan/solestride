@@ -26,6 +26,41 @@ const EMPTY_FORM = {
   postal_code: "",
 };
 
+// Turn a failed API call into one specific, readable sentence. "phase" is
+// where in the checkout the call failed: pushing the cart to the server or
+// placing the order itself.
+function checkoutErrorText(err, phase) {
+  if (err instanceof ApiError) {
+    if (err.status === 401) {
+      return "Your session timed out. Please sign in again and try once more.";
+    }
+    if (phase === "cart") {
+      return "We could not save your cart on the server. Nothing was charged; please try placing the order again.";
+    }
+    if (
+      err.status === 400 &&
+      Array.isArray(err.details) &&
+      err.details.length > 0
+    ) {
+      return err.details.join(". ");
+    }
+    if (err.status === 400) {
+      return "The order details were rejected. Please check the form and try again.";
+    }
+    if (err.status === 429) {
+      return "Too many attempts right now. Please wait a minute and try again.";
+    }
+    if (err.status >= 500) {
+      return "Something went wrong on our side while saving the order. Nothing was charged. Please try again in a moment.";
+    }
+    return "The order could not be saved. Please check your connection and try again.";
+  }
+  if (phase === "cart") {
+    return "We could not reach the store to save your cart. Please check your connection and try again.";
+  }
+  return "Could not place the order. Please check your connection and try again.";
+}
+
 export default function Checkout() {
   const { user, token } = useAuth();
   const { items, clear, count } = useCart();
@@ -59,6 +94,7 @@ export default function Checkout() {
 
     setPlacing(true);
     let order = null;
+    let phase = "cart";
     try {
       // The order engine reads the signed-in user's server-side cart, so the
       // local cart is pushed there first, one line at a time.
@@ -70,6 +106,7 @@ export default function Checkout() {
         );
       }
 
+      phase = "order";
       const data = await api.post(
         "/orders",
         { ...form, payment_method: paymentMethod },
@@ -96,15 +133,7 @@ export default function Checkout() {
       clear();
       setPlaced({ order, intent });
     } catch (err) {
-      if (err instanceof ApiError && err.status === 400 && order === null) {
-        setError(
-          Array.isArray(err.details) && err.details.length > 0
-            ? err.details.join(". ")
-            : err.message
-        );
-      } else {
-        setError(err instanceof ApiError ? err.message : "Could not place the order. Try again.");
-      }
+      setError(checkoutErrorText(err, phase));
     } finally {
       setPlacing(false);
     }
