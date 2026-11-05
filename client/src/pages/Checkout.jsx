@@ -282,7 +282,10 @@ export default function Checkout() {
           </div>
 
           {error && (
-            <p role="alert" className="text-sm text-red-700">
+            <p
+              role="alert"
+              className="border border-line border-l-2 border-l-red-700 bg-surface px-4 py-3 text-sm text-red-700"
+            >
               {error}
             </p>
           )}
