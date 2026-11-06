@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { formatPKR } from "../lib/format.js";
 import { useCart } from "../context/CartContext.jsx";
@@ -11,6 +12,56 @@ export default function Cart() {
   const { items, updateQty, removeItem, count } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
+  // Typed quantities live here until blur: keyed by product:size, with one
+  // validation message per row, so editing one line never touches the rest.
+  const [drafts, setDrafts] = useState({});
+  const [rowErrors, setRowErrors] = useState({});
+
+  const rowKey = (item) => `${item.product_id}:${item.size}`;
+
+  function setDraft(item, value) {
+    const key = rowKey(item);
+    setDrafts((prev) => ({ ...prev, [key]: value }));
+    setRowErrors((prev) => {
+      if (!(key in prev)) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  }
+
+  function commitDraft(item) {
+    const key = rowKey(item);
+    const raw = (drafts[key] ?? "").trim();
+    if (raw === "") {
+      setDrafts((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+      return;
+    }
+    if (!/^\d+$/.test(raw)) {
+      setRowErrors((prev) => ({
+        ...prev,
+        [key]: "Quantity must be a number between 1 and 10.",
+      }));
+      return;
+    }
+    const qty = Math.max(1, Math.min(MAX_QTY, parseInt(raw, 10)));
+    if (String(qty) !== raw) {
+      setRowErrors((prev) => ({
+        ...prev,
+        [key]: `Quantity must be between 1 and ${MAX_QTY}. We set it to ${qty}.`,
+      }));
+    }
+    updateQty(item.product_id, item.size, qty);
+    setDrafts((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  }
 
   const subtotal = items.reduce((sum, i) => sum + i.price_cents * i.qty, 0);
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD_PAISA || subtotal === 0 ? 0 : SHIPPING_PAISA;
@@ -68,7 +119,20 @@ export default function Cart() {
                   >
                     −
                   </button>
-                  <span className="w-8 text-center text-sm">{item.qty}</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={drafts[rowKey(item)] ?? String(item.qty)}
+                    onChange={(e) =>
+                      setDraft(item, e.target.value.replace(/\D/g, "").slice(0, 2))
+                    }
+                    onBlur={() => commitDraft(item)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.currentTarget.blur();
+                    }}
+                    aria-label={`Quantity for ${item.name}, size ${item.size}`}
+                    className="w-8 border-0 bg-transparent p-0 text-center text-sm focus:outline-none"
+                  />
                   <button
                     onClick={() => updateQty(item.product_id, item.size, item.qty + 1)}
                     disabled={item.qty >= MAX_QTY}
@@ -79,6 +143,11 @@ export default function Cart() {
                     +
                   </button>
                 </div>
+                {rowErrors[rowKey(item)] && (
+                  <p role="alert" className="text-xs text-red-700">
+                    {rowErrors[rowKey(item)]}
+                  </p>
+                )}
                 <button
                   onClick={() => removeItem(item.product_id, item.size)}
                   className="text-sm text-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
