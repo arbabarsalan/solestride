@@ -3,6 +3,7 @@ import { formatPKR } from "../lib/format.js";
 import { useCart } from "../context/CartContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
+const MAX_QTY = 10;
 const SHIPPING_PAISA = 25000;
 const FREE_SHIPPING_THRESHOLD_PAISA = 500000;
 
@@ -61,7 +62,8 @@ export default function Cart() {
                 <div className="flex items-center border border-line">
                   <button
                     onClick={() => updateQty(item.product_id, item.size, item.qty - 1)}
-                    className="px-3 py-1.5 text-muted transition-colors hover:text-ink"
+                    disabled={item.qty <= 1}
+                    className="px-3 py-1.5 text-muted transition-colors hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
                     aria-label="Decrease quantity"
                   >
                     −
@@ -69,7 +71,9 @@ export default function Cart() {
                   <span className="w-8 text-center text-sm">{item.qty}</span>
                   <button
                     onClick={() => updateQty(item.product_id, item.size, item.qty + 1)}
-                    className="px-3 py-1.5 text-muted transition-colors hover:text-ink"
+                    disabled={item.qty >= MAX_QTY}
+                    title={item.qty >= MAX_QTY ? `Maximum ${MAX_QTY} per style` : undefined}
+                    className="px-3 py-1.5 text-muted transition-colors hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
                     aria-label="Increase quantity"
                   >
                     +
