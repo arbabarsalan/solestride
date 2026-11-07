@@ -19,6 +19,7 @@ export default function Orders() {
   const { user, token } = useAuth();
   const [orders, setOrders] = useState(null);
   const [error, setError] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(5);
 
   useEffect(() => {
     if (!user) return;
@@ -81,7 +82,7 @@ export default function Orders() {
       <h1 className="text-3xl font-semibold">Your orders</h1>
 
       <div className="mt-10 divide-y divide-line border-y border-line">
-        {orders.map((order) => (
+        {orders.slice(0, visibleCount).map((order) => (
           <Link
             key={order.id}
             to={`/account/orders/${order.id}`}
@@ -101,6 +102,21 @@ export default function Orders() {
           </Link>
         ))}
       </div>
+
+      {orders.length > visibleCount && (
+        <div className="mt-8 flex flex-col items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setVisibleCount((count) => count + 5)}
+            className="border border-line px-8 py-3 text-sm font-medium transition-colors hover:border-ink hover:bg-surface"
+          >
+            Show more
+          </button>
+          <p className="text-sm text-muted">
+            Showing {Math.min(visibleCount, orders.length)} of {orders.length} orders
+          </p>
+        </div>
+      )}
     </div>
   );
 }
