@@ -20,7 +20,7 @@ export default function Product() {
     setAdded(false);
     api
       .get(`/products/${slug}`)
-      .then(setProduct)
+      .then((data) => setProduct(data.product))
       .catch((err) => setError(err.message));
   }, [slug]);
 
