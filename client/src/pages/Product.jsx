@@ -81,7 +81,7 @@ export default function Product() {
                 <button
                   key={s}
                   onClick={() => setSize(s)}
-                  className={`min-w-12 border px-3 py-2 text-sm transition-colors ${
+                  className={`min-w-12 border px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                     size === s
                       ? "border-ink bg-ink text-white"
                       : "border-line text-muted hover:border-ink hover:text-ink"
