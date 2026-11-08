@@ -76,10 +76,13 @@ export default function Product() {
 
           <div className="mt-8">
             <p className="text-sm font-medium">Size</p>
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div role="group" aria-label="Select a size" className="mt-3 flex flex-wrap gap-2">
               {sizes.map((s) => (
                 <button
                   key={s}
+                  type="button"
+                  aria-pressed={size === s}
+                  aria-label={`Size ${s}`}
                   onClick={() => setSize(s)}
                   className={`min-w-12 border px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
                     size === s
