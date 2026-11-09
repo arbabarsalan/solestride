@@ -168,6 +168,10 @@ export default function Checkout() {
               Test mode: the order stays pending until the Stripe test webhook confirms the payment.
             </p>
           )}
+          <p className="text-xs text-muted">
+            Test mode: no confirmation email is sent yet. The one that launches
+            with real payments is still a placeholder.
+          </p>
         </div>
         <Link
           to="/shop"
