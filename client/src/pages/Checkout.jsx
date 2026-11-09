@@ -145,8 +145,8 @@ export default function Checkout() {
       <div className="mx-auto max-w-shell px-6 py-16">
         <h1 className="text-3xl font-semibold">Order placed</h1>
         <p className="mt-3 text-muted">
-          Order #{order.id} is {order.status}. We saved your address and sent the
-          details to {order.shipping_address.full_name}.
+          Order #{order.id} is {order.status}. We saved your address and the
+          order details for {order.shipping_address.full_name}.
         </p>
         <div className="mt-8 max-w-sm space-y-2 text-sm">
           <div className="flex justify-between">
