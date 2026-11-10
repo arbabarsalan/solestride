@@ -9,6 +9,7 @@ export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
   const category = searchParams.get("category") || "";
+  const [sort, setSort] = useState("newest");
 
   const [products, setProducts] = useState(null);
   const [totalPages, setTotalPages] = useState(1);
@@ -53,7 +54,7 @@ export default function Shop() {
     <div className="mx-auto max-w-shell px-6 py-16">
       <h1 className="text-3xl font-semibold">Shop</h1>
 
-      <div className="mt-8 flex flex-wrap gap-3">
+      <div className="mt-8 flex flex-wrap items-center gap-3">
         <button
           onClick={() => pickCategory("")}
           className={`border px-4 py-2 text-sm transition-colors ${
@@ -76,6 +77,24 @@ export default function Shop() {
             <span className="ml-2 text-xs opacity-60">{c.product_count}</span>
           </button>
         ))}
+        <div className="ml-auto flex items-center gap-2">
+          <label
+            htmlFor="shop-sort"
+            className="text-xs uppercase tracking-[0.25em] text-muted"
+          >
+            Sort
+          </label>
+          <select
+            id="shop-sort"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="border border-line bg-canvas px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none"
+          >
+            <option value="newest">Newest first</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+          </select>
+        </div>
       </div>
 
       {error && <p className="mt-12 text-sm text-muted">Could not load products right now.</p>}
