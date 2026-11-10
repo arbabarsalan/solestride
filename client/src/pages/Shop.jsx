@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { api } from "../lib/api.js";
 import ProductCard from "../components/ProductCard.jsx";
@@ -36,6 +36,16 @@ export default function Shop() {
       })
       .catch((err) => setError(err.message));
   }, [page, category]);
+
+  // Sorting only orders the page the API already returned; the server keeps
+  // its own order for pagination.
+  const sorted = useMemo(() => {
+    if (!products) return null;
+    const list = [...products];
+    if (sort === "price-asc") list.sort((a, b) => a.price_cents - b.price_cents);
+    if (sort === "price-desc") list.sort((a, b) => b.price_cents - a.price_cents);
+    return list;
+  }, [products, sort]);
 
   function goTo(next) {
     const params = {};
@@ -104,7 +114,7 @@ export default function Shop() {
       )}
       {products && products.length > 0 && (
         <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 lg:grid-cols-4">
-          {products.map((p) => (
+          {sorted.map((p) => (
             <ProductCard key={p.slug} product={p} />
           ))}
         </div>
