@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { formatPKR } from "../lib/format.js";
 import { useCart } from "../context/CartContext.jsx";
@@ -16,6 +16,17 @@ export default function Cart() {
   // validation message per row, so editing one line never touches the rest.
   const [drafts, setDrafts] = useState({});
   const [rowErrors, setRowErrors] = useState({});
+  // Rows mid-remove stay rendered one beat longer so they can animate out;
+  // keyed like drafts so a rapid second click on the same row is a no-op.
+  const [removing, setRemoving] = useState({});
+  const timersRef = useRef(new Set());
+
+  useEffect(
+    () => () => {
+      timersRef.current.forEach((t) => clearTimeout(t));
+    },
+    []
+  );
 
   const rowKey = (item) => `${item.product_id}:${item.size}`;
 
@@ -63,6 +74,22 @@ export default function Cart() {
     });
   }
 
+  function handleRemove(item) {
+    const key = rowKey(item);
+    if (removing[key]) return;
+    setRemoving((prev) => ({ ...prev, [key]: true }));
+    const timer = setTimeout(() => {
+      timersRef.current.delete(timer);
+      setRemoving((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+      removeItem(item.product_id, item.size);
+    }, 260);
+    timersRef.current.add(timer);
+  }
+
   const subtotal = items.reduce((sum, i) => sum + i.price_cents * i.qty, 0);
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD_PAISA || subtotal === 0 ? 0 : SHIPPING_PAISA;
   const total = subtotal + shipping;
@@ -88,7 +115,14 @@ export default function Cart() {
 
       <div className="mt-10 divide-y divide-line border-y border-line">
         {items.map((item) => (
-          <div key={`${item.product_id}:${item.size}`} className="flex gap-6 py-6">
+          <div
+            key={`${item.product_id}:${item.size}`}
+            className={`flex gap-6 overflow-hidden transition-[max-height,opacity,padding] duration-300 ease-out ${
+              removing[rowKey(item)]
+                ? "max-h-0 py-0 opacity-0"
+                : "max-h-64 opacity-100"
+            }`}
+          >
             <Link to={`/product/${item.slug}`} className="shrink-0">
               <img
                 src={item.image_url}
@@ -149,8 +183,9 @@ export default function Cart() {
                   </p>
                 )}
                 <button
-                  onClick={() => removeItem(item.product_id, item.size)}
-                  className="text-sm text-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
+                  onClick={() => handleRemove(item)}
+                  disabled={removing[rowKey(item)]}
+                  className="text-sm text-muted underline-offset-4 transition-colors hover:text-ink hover:underline disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Remove
                 </button>
