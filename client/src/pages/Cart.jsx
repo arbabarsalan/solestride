@@ -117,7 +117,7 @@ export default function Cart() {
         {items.map((item) => (
           <div
             key={`${item.product_id}:${item.size}`}
-            className={`flex gap-6 overflow-hidden transition-[max-height,opacity,padding] duration-300 ease-out ${
+            className={`flex gap-6 overflow-hidden transition-[max-height,opacity,padding] duration-300 ease-out motion-reduce:transition-none ${
               removing[rowKey(item)]
                 ? "max-h-0 py-0 opacity-0"
                 : "max-h-64 opacity-100"
