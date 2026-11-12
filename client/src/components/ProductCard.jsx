@@ -18,7 +18,7 @@ export default function ProductCard({ product }) {
           <h3 className="mt-1 font-medium leading-snug">{product.name}</h3>
         </div>
         <p
-          className="whitespace-nowrap text-sm font-medium text-ink transition-colors duration-150 group-hover:text-accent"
+          className="whitespace-nowrap text-sm font-medium text-ink transition-colors duration-150 group-hover:text-accent group-focus:text-accent"
         >
           {formatPKR(product.price_cents)}
         </p>
