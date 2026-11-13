@@ -20,6 +20,9 @@ export default function Orders() {
   const [orders, setOrders] = useState(null);
   const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(5);
+  // Skeleton bars wait a beat before appearing, so an instant cached load
+  // never flashes them.
+  const [skeletonReady, setSkeletonReady] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -44,6 +47,15 @@ export default function Orders() {
 
   if (!user) return <Navigate to="/login" replace />;
 
+  useEffect(() => {
+    if (orders !== null) {
+      setSkeletonReady(false);
+      return;
+    }
+    const timer = setTimeout(() => setSkeletonReady(true), 180);
+    return () => clearTimeout(timer);
+  }, [orders]);
+
   if (error) {
     return (
       <div className="mx-auto max-w-shell px-6 py-24 text-center">
@@ -55,9 +67,26 @@ export default function Orders() {
 
   if (orders === null) {
     return (
-      <div className="mx-auto max-w-shell px-6 py-24 text-center">
+      <div className="mx-auto max-w-shell px-6 py-16">
         <h1 className="text-3xl font-semibold">Your orders</h1>
-        <p className="mt-3 text-muted">Loading…</p>
+        <div className="mt-10 divide-y divide-line border-y border-line" aria-busy="true">
+          {skeletonReady &&
+            [0, 1, 2].map((row) => (
+              <div
+                key={row}
+                aria-hidden="true"
+                className="flex items-center justify-between gap-x-8 py-6"
+              >
+                <div className="space-y-2">
+                  <div className="h-4 w-24 animate-pulse bg-line" />
+                  <div className="h-3 w-32 animate-pulse bg-surface" />
+                </div>
+                <div className="h-5 w-16 animate-pulse bg-line" />
+                <div className="h-3 w-20 animate-pulse bg-surface" />
+                <div className="h-5 w-16 animate-pulse bg-line" />
+              </div>
+            ))}
+        </div>
       </div>
     );
   }
