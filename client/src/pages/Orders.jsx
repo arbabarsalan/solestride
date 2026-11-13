@@ -78,12 +78,12 @@ export default function Orders() {
                 className="flex items-center justify-between gap-x-8 py-6"
               >
                 <div className="space-y-2">
-                  <div className="h-4 w-24 animate-pulse bg-line" />
-                  <div className="h-3 w-32 animate-pulse bg-surface" />
+                  <div className="h-4 w-24 animate-pulse motion-reduce:animate-none bg-line" />
+                  <div className="h-3 w-32 animate-pulse motion-reduce:animate-none bg-surface" />
                 </div>
-                <div className="h-5 w-16 animate-pulse bg-line" />
-                <div className="h-3 w-20 animate-pulse bg-surface" />
-                <div className="h-5 w-16 animate-pulse bg-line" />
+                <div className="h-5 w-16 animate-pulse motion-reduce:animate-none bg-line" />
+                <div className="h-3 w-20 animate-pulse motion-reduce:animate-none bg-surface" />
+                <div className="h-5 w-16 animate-pulse motion-reduce:animate-none bg-line" />
               </div>
             ))}
         </div>
