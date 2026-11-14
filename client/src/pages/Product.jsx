@@ -55,7 +55,7 @@ export default function Product() {
       <nav aria-label="Breadcrumb" className="text-sm text-muted">
         <ol className="flex flex-wrap items-center gap-2">
           <li>
-            <Link to="/shop" className="hover:text-ink">Shop</Link>
+            <Link to="/shop" className="hover:text-ink">Home</Link>
           </li>
           <li aria-hidden="true">/</li>
           <li>
@@ -63,6 +63,8 @@ export default function Product() {
               {product.category_name}
             </Link>
           </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" className="text-ink">{product.name}</li>
         </ol>
       </nav>
 
