@@ -52,12 +52,18 @@ export default function Product() {
 
   return (
     <div className="mx-auto max-w-shell px-6 py-16">
-      <nav className="text-sm text-muted">
-        <Link to="/shop" className="hover:text-ink">Shop</Link>
-        <span className="mx-2">/</span>
-        <Link to={`/shop?category=${product.category_slug}`} className="hover:text-ink">
-          {product.category_name}
-        </Link>
+      <nav aria-label="Breadcrumb" className="text-sm text-muted">
+        <ol className="flex flex-wrap items-center gap-2">
+          <li>
+            <Link to="/shop" className="hover:text-ink">Shop</Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <Link to={`/shop?category=${product.category_slug}`} className="hover:text-ink">
+              {product.category_name}
+            </Link>
+          </li>
+        </ol>
       </nav>
 
       <div className="mt-8 grid gap-12 md:grid-cols-2">
