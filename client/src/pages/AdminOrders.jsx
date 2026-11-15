@@ -137,6 +137,8 @@ export default function AdminOrders() {
             When customers check out, their orders land here.
           </p>
         </div>
+      ) : visibleOrders.length === 0 ? (
+        <p className="mt-12 text-muted">No orders with this status.</p>
       ) : (
         <div className="mt-10 overflow-x-auto border-y border-line">
           <table className="w-full min-w-3xl text-left text-sm">
