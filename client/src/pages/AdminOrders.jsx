@@ -22,6 +22,7 @@ export default function AdminOrders() {
   const { user, token } = useAuth();
   const navigate = useNavigate();
   const [orders, setOrders] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [error, setError] = useState("");
   const [rowError, setRowError] = useState("");
 
@@ -90,12 +91,38 @@ export default function AdminOrders() {
     );
   }
 
+  // The status filter narrows the already-loaded rows; the server list itself
+  // stays untouched.
+  const visibleOrders =
+    statusFilter === "all"
+      ? orders
+      : orders.filter((order) => order.status === statusFilter);
+
   return (
     <div className="mx-auto max-w-shell px-6 py-16">
       <h1 className="text-3xl font-semibold">Orders</h1>
       <p className="mt-1 text-sm text-muted">
         {orders.length} {orders.length === 1 ? "order" : "orders"} in the store
       </p>
+
+      <div className="mt-8 flex items-center gap-3">
+        <label htmlFor="status-filter" className="text-sm text-muted">
+          Status
+        </label>
+        <select
+          id="status-filter"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="border border-line bg-canvas px-3 py-2 text-sm text-muted focus:border-ink"
+        >
+          <option value="all">All statuses</option>
+          {STATUSES.map((status) => (
+            <option key={status} value={status}>
+              {status}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {rowError && (
         <p role="alert" className="mt-4 text-sm text-red-700">
@@ -124,7 +151,7 @@ export default function AdminOrders() {
               </tr>
             </thead>
             <tbody className="divide-y divide-line">
-              {orders.map((order) => (
+              {visibleOrders.map((order) => (
                 <tr key={order.id} className="transition-colors hover:bg-surface">
                   <td className="whitespace-nowrap py-4 pr-6 font-medium">#{order.id}</td>
                   <td className="py-4 pr-6 text-muted">{formatDate(order.created_at)}</td>
