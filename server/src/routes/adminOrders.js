@@ -18,7 +18,7 @@ router.get("/orders", async (req, res, next) => {
     const { rows } = await pool.query(
       `SELECT o.id, o.user_id, o.status, o.total_cents, o.payment_method,
               o.shipping_address, o.created_at, o.updated_at,
-              u.email AS customer_email, u.name AS customer_name
+              u.email AS customer_email, u.full_name AS customer_name
        FROM orders o
        JOIN users u ON u.id = o.user_id
        ORDER BY o.created_at DESC
@@ -36,7 +36,7 @@ router.get("/orders", async (req, res, next) => {
 router.get("/orders/:id", async (req, res, next) => {
   try {
     const { rows } = await pool.query(
-      `SELECT o.*, u.email AS customer_email, u.name AS customer_name
+      `SELECT o.*, u.email AS customer_email, u.full_name AS customer_name
        FROM orders o JOIN users u ON u.id = o.user_id WHERE o.id = $1`,
       [req.params.id]
     );
