@@ -112,8 +112,17 @@ export default function Product() {
             {soldOut ? "Sold out" : added ? "Added to cart" : size ? "Add to cart" : "Pick a size"}
           </button>
 
+          {soldOut && (
+            <p className="mt-3 text-sm text-muted">
+              This one is sold out.{" "}
+              <Link to="/shop" className="underline hover:text-ink">
+                Browse the rest of the shop
+              </Link>
+            </p>
+          )}
+
           {lowStock && (
-            <p className="mt-3 text-sm text-accent">Only {product.stock} left in stock.</p>
+            <p className="mt-3 text-sm text-accent">Only {product.stock} left.</p>
           )}
 
           <div className="mt-10 border-t border-line pt-8">
