@@ -130,6 +130,31 @@ export default function AdminOrders() {
         </select>
       </div>
 
+      <div className="mt-8 flex items-center justify-between">
+        <p className="text-sm text-muted">
+          Page {Math.floor(offset / PAGE_SIZE) + 1} of{" "}
+          {Math.max(1, Math.ceil(total / PAGE_SIZE))}
+        </p>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setOffset((o) => Math.max(0, o - PAGE_SIZE))}
+            disabled={offset === 0}
+            className="border border-line bg-canvas px-3 py-1.5 text-sm text-muted transition-colors hover:border-ink hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Prev
+          </button>
+          <button
+            type="button"
+            onClick={() => setOffset((o) => o + PAGE_SIZE)}
+            disabled={offset + PAGE_SIZE >= total}
+            className="border border-line bg-canvas px-3 py-1.5 text-sm text-muted transition-colors hover:border-ink hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+
       {rowError && (
         <p role="alert" className="mt-4 text-sm text-red-700">
           {rowError}
@@ -138,7 +163,9 @@ export default function AdminOrders() {
 
       {orders.length === 0 ? (
         <div className="mt-12">
-          <p className="text-muted">No orders yet.</p>
+          <p className="text-muted">
+          {offset > 0 ? "No orders on this page." : "No orders yet."}
+        </p>
           <p className="mt-2 text-sm text-muted">
             When customers check out, their orders land here.
           </p>
