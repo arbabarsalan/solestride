@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { PaymentBadge, StatusBadge } from "../components/OrderBadges.jsx";
 
 const STATUSES = ["pending", "paid", "shipped", "delivered", "cancelled"];
+const PAGE_SIZE = 50;
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString("en-PK", {
@@ -22,6 +23,8 @@ export default function AdminOrders() {
   const { user, token } = useAuth();
   const navigate = useNavigate();
   const [orders, setOrders] = useState(null);
+  const [total, setTotal] = useState(0);
+  const [offset, setOffset] = useState(0);
   const [statusFilter, setStatusFilter] = useState("all");
   const [error, setError] = useState("");
   const [rowError, setRowError] = useState("");
@@ -30,9 +33,12 @@ export default function AdminOrders() {
     if (!user || user.role !== "admin") return;
     let active = true;
     api
-      .get("/admin/orders", token)
+      .get(`/admin/orders?offset=${offset}`, token)
       .then((data) => {
-        if (active) setOrders(data.orders || []);
+        if (active) {
+          setOrders(data.orders || []);
+          setTotal(data.total || 0);
+        }
       })
       .catch((err) => {
         if (!active) return;
@@ -49,7 +55,7 @@ export default function AdminOrders() {
     return () => {
       active = false;
     };
-  }, [user, token, navigate]);
+  }, [user, token, navigate, offset]);
 
   if (!user || user.role !== "admin") return <Navigate to="/" replace />;
 
@@ -102,7 +108,7 @@ export default function AdminOrders() {
     <div className="mx-auto max-w-shell px-6 py-16">
       <h1 className="text-3xl font-semibold">Orders</h1>
       <p className="mt-1 text-sm text-muted">
-        {orders.length} {orders.length === 1 ? "order" : "orders"} in the store
+        {total} {total === 1 ? "order" : "orders"} in the store
       </p>
 
       <div className="mt-8 flex items-center gap-3">
