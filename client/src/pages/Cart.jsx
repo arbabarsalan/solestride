@@ -97,7 +97,18 @@ export default function Cart() {
   if (count === 0) {
     return (
       <div className="mx-auto max-w-shell px-6 py-24 text-center">
-        <h1 className="text-3xl font-semibold">Your cart is empty</h1>
+        <svg
+          viewBox="0 0 48 48"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          aria-hidden="true"
+          className="mx-auto h-14 w-14 text-muted"
+        >
+          <path d="M12 16h24l-2 24H14l-2-24Z" strokeLinejoin="round" />
+          <path d="M18 16v-2a6 6 0 0 1 12 0v2" strokeLinecap="round" />
+        </svg>
+        <h1 className="mt-6 text-3xl font-semibold">Your cart is empty</h1>
         <p className="mt-3 text-muted">Your wardrobe is waiting.</p>
         <Link
           to="/shop"
