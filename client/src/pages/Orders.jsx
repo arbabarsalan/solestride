@@ -94,7 +94,19 @@ export default function Orders() {
   if (orders.length === 0) {
     return (
       <div className="mx-auto max-w-shell px-6 py-24 text-center">
-        <h1 className="text-3xl font-semibold">No orders yet</h1>
+        <svg
+          viewBox="0 0 56 56"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          aria-hidden="true"
+          className="mx-auto h-14 w-14 text-muted"
+        >
+          <path d="M17 10h22v33l-3.7-3-3.6 3-3.7-3-3.6 3-3.7-3-3.7 3V10z" />
+          <path d="M22 20h12M22 26h12M22 32h7" />
+        </svg>
+        <h1 className="mt-6 text-3xl font-semibold">No orders yet</h1>
         <p className="mt-3 text-muted">When you place an order, it shows up here.</p>
         <Link
           to="/shop"
