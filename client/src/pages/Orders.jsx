@@ -107,7 +107,7 @@ export default function Orders() {
           <path d="M22 20h12M22 26h12M22 32h7" />
         </svg>
         <h1 className="mt-6 text-3xl font-semibold">No orders yet</h1>
-        <p className="mt-3 text-muted">When you place an order, it shows up here.</p>
+        <p className="mt-3 text-muted">When you place your first order, it will show up here.</p>
         <Link
           to="/shop"
           className="mt-8 inline-block bg-ink px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-accent"
