@@ -105,6 +105,8 @@ export default function Product() {
           </div>
 
           <button
+            type="button"
+            aria-label={`Add ${product.name}${size ? `, size ${size}` : ""} to cart`}
             onClick={handleAdd}
             disabled={!size || soldOut}
             className="mt-8 w-full bg-ink py-4 text-sm font-medium text-white transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:bg-line disabled:text-muted md:w-auto md:px-16"
