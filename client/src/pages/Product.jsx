@@ -112,6 +112,12 @@ export default function Product() {
             {soldOut ? "Sold out" : added ? "Added to cart" : size ? "Add to cart" : "Pick a size"}
           </button>
 
+          {!soldOut && (
+            <p className="mt-3 text-sm text-muted">
+              Need more than one? You can adjust the quantity in your cart.
+            </p>
+          )}
+
           {soldOut && (
             <p className="mt-3 text-sm text-muted">
               This one is sold out.{" "}
