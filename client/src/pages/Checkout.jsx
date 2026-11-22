@@ -303,7 +303,7 @@ export default function Checkout() {
           </button>
         </form>
 
-        <div>
+        <div className="self-start border border-line bg-canvas p-6">
           <h2 className="text-xs uppercase tracking-widest text-muted">Order summary</h2>
           <div className="mt-4 divide-y divide-line border-y border-line">
             {items.map((item) => (
@@ -319,11 +319,11 @@ export default function Checkout() {
                     {item.size} × {item.qty}
                   </p>
                 </div>
-                <p className="text-sm">{formatPKR(item.price_cents * item.qty)}</p>
+                <p className="text-sm tabular-nums">{formatPKR(item.price_cents * item.qty)}</p>
               </div>
             ))}
           </div>
-          <div className="mt-4 max-w-xs space-y-2 text-sm">
+          <div className="mt-4 max-w-xs space-y-2 text-sm tabular-nums">
             <div className="flex justify-between">
               <span className="text-muted">Subtotal</span>
               <span>{formatPKR(subtotal)}</span>
