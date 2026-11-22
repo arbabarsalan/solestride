@@ -332,6 +332,11 @@ export default function Checkout() {
               <span className="text-muted">Shipping</span>
               <span>{shipping === 0 ? "Free" : formatPKR(shipping)}</span>
             </div>
+            {shipping > 0 && (
+              <p className="text-xs text-muted">
+                Free on orders over {formatPKR(FREE_SHIPPING_THRESHOLD_PAISA)}.
+              </p>
+            )}
             <div className="flex justify-between border-t border-line pt-2 font-semibold">
               <span>Total</span>
               <span>{formatPKR(total)}</span>
