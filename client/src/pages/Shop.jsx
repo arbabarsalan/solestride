@@ -100,16 +100,28 @@ export default function Shop() {
           >
             Sort
           </label>
-          <select
-            id="shop-sort"
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-            className="rounded-full border border-line bg-canvas px-4 py-2 text-sm text-muted transition-colors hover:border-ink hover:text-ink focus:border-ink focus:outline-none"
-          >
-            <option value="newest">Newest first</option>
-            <option value="price-asc">Price: low to high</option>
-            <option value="price-desc">Price: high to low</option>
-          </select>
+          <span className="relative inline-flex items-center">
+            <select
+              id="shop-sort"
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              className="appearance-none rounded-full border border-line bg-canvas py-2 pl-4 pr-9 text-sm text-muted transition-colors hover:border-ink hover:text-ink focus:border-ink focus:outline-none"
+            >
+              <option value="newest">Newest first</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+            </select>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="pointer-events-none absolute right-3 h-3 w-3 text-muted"
+            >
+              <path d="M4 6l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
         </div>
       </div>
 
