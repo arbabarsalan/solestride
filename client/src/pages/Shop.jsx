@@ -104,7 +104,7 @@ export default function Shop() {
             id="shop-sort"
             value={sort}
             onChange={(e) => setSort(e.target.value)}
-            className="border border-line bg-canvas px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none"
+            className="rounded-full border border-line bg-canvas px-4 py-2 text-sm text-muted transition-colors hover:border-ink hover:text-ink focus:border-ink focus:outline-none"
           >
             <option value="newest">Newest first</option>
             <option value="price-asc">Price: low to high</option>
