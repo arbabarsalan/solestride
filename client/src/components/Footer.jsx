@@ -10,7 +10,7 @@ const SHOP_CATEGORIES = [
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t border-line">
+    <footer className="mt-24 border-t border-line bg-canvas">
       <div className="mx-auto grid max-w-shell grid-cols-2 gap-8 px-6 py-12 text-sm text-muted md:grid-cols-4">
         <div>
           <p className="font-semibold tracking-[0.2em] text-ink">LIBAS</p>
@@ -19,10 +19,10 @@ export default function Footer() {
         <div>
           <p className="font-medium text-ink">Shop</p>
           <ul className="mt-3 space-y-2">
-            <li><Link to="/shop" className="hover:text-ink">All products</Link></li>
+            <li><Link to="/shop" className="transition-colors hover:text-ink">All products</Link></li>
             {SHOP_CATEGORIES.map((category) => (
               <li key={category.slug}>
-                <Link to={`/shop?category=${category.slug}`} className="hover:text-ink">
+                <Link to={`/shop?category=${category.slug}`} className="transition-colors hover:text-ink">
                   {category.name}
                 </Link>
               </li>
@@ -32,10 +32,10 @@ export default function Footer() {
         <div>
           <p className="font-medium text-ink">Account</p>
           <ul className="mt-3 space-y-2">
-            <li><Link to="/login" className="hover:text-ink">Sign in</Link></li>
-            <li><Link to="/register" className="hover:text-ink">Create account</Link></li>
-            <li><Link to="/account/orders" className="hover:text-ink">My orders</Link></li>
-            <li><Link to="/cart" className="hover:text-ink">Cart</Link></li>
+            <li><Link to="/login" className="transition-colors hover:text-ink">Sign in</Link></li>
+            <li><Link to="/register" className="transition-colors hover:text-ink">Create account</Link></li>
+            <li><Link to="/account/orders" className="transition-colors hover:text-ink">My orders</Link></li>
+            <li><Link to="/cart" className="transition-colors hover:text-ink">Cart</Link></li>
           </ul>
         </div>
         <div>
@@ -43,7 +43,7 @@ export default function Footer() {
           <ul className="mt-3 space-y-2">
             <li>Free shipping over Rs 5,000</li>
             <li>Cash on delivery available</li>
-            <li><Link to="/admin/orders" className="hover:text-ink">Order dashboard</Link></li>
+            <li><Link to="/admin/orders" className="transition-colors hover:text-ink">Order dashboard</Link></li>
           </ul>
         </div>
       </div>
