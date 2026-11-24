@@ -1,18 +1,32 @@
 import { Link } from "react-router-dom";
 
+const SHOP_CATEGORIES = [
+  { name: "Men", slug: "men" },
+  { name: "Women", slug: "women" },
+  { name: "Kids", slug: "kids" },
+  { name: "Unstitched", slug: "unstitched" },
+  { name: "Accessories", slug: "accessories" },
+];
+
 export default function Footer() {
   return (
     <footer className="mt-24 border-t border-line">
       <div className="mx-auto grid max-w-shell grid-cols-2 gap-8 px-6 py-12 text-sm text-muted md:grid-cols-4">
         <div>
           <p className="font-semibold tracking-[0.2em] text-ink">LIBAS</p>
-          <p className="mt-3 leading-relaxed">Tradition, tailored for today.</p>
+          <p className="mt-3 leading-relaxed">Eastern wear stitched and shipped across Pakistan.</p>
         </div>
         <div>
           <p className="font-medium text-ink">Shop</p>
           <ul className="mt-3 space-y-2">
             <li><Link to="/shop" className="hover:text-ink">All products</Link></li>
-            <li><Link to="/cart" className="hover:text-ink">Cart</Link></li>
+            {SHOP_CATEGORIES.map((category) => (
+              <li key={category.slug}>
+                <Link to={`/shop?category=${category.slug}`} className="hover:text-ink">
+                  {category.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div>
@@ -20,13 +34,16 @@ export default function Footer() {
           <ul className="mt-3 space-y-2">
             <li><Link to="/login" className="hover:text-ink">Sign in</Link></li>
             <li><Link to="/register" className="hover:text-ink">Create account</Link></li>
+            <li><Link to="/account/orders" className="hover:text-ink">My orders</Link></li>
+            <li><Link to="/cart" className="hover:text-ink">Cart</Link></li>
           </ul>
         </div>
         <div>
-          <p className="font-medium text-ink">Support</p>
+          <p className="font-medium text-ink">Help</p>
           <ul className="mt-3 space-y-2">
             <li>Free shipping over Rs 5,000</li>
             <li>Cash on delivery available</li>
+            <li><Link to="/admin/orders" className="hover:text-ink">Order dashboard</Link></li>
           </ul>
         </div>
       </div>
