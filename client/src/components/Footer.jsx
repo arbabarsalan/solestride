@@ -47,8 +47,11 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-line py-6 text-center text-xs text-muted">
-        &copy; {new Date().getFullYear()} LIBAS
+      <div className="border-t border-line">
+        <div className="mx-auto flex max-w-shell flex-col gap-2 px-6 py-6 text-center text-xs text-muted md:flex-row md:items-center md:justify-between md:text-left">
+          <p>&copy; {new Date().getFullYear()} LIBAS. All rights reserved.</p>
+          <p>Tradition, tailored for today.</p>
+        </div>
       </div>
     </footer>
   );
