@@ -134,6 +134,9 @@ export default function AdminOrders() {
             <span className="ml-2 text-xs opacity-60">{countFor(status)}</span>
           </button>
         ))}
+        <span className="ml-auto text-sm text-muted">
+          {visibleOrders.length} shown
+        </span>
       </div>
 
       <div className="mt-8 flex items-center justify-between">
