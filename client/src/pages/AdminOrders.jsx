@@ -99,6 +99,8 @@ export default function AdminOrders() {
 
   // The status filter narrows the already-loaded rows; the server list itself
   // stays untouched.
+  const countFor = (status) =>
+    status === "all" ? orders.length : orders.filter((order) => order.status === status).length;
   const visibleOrders =
     statusFilter === "all"
       ? orders
@@ -129,6 +131,7 @@ export default function AdminOrders() {
             }`}
           >
             {status === "all" ? "All" : status.charAt(0).toUpperCase() + status.slice(1)}
+            <span className="ml-2 text-xs opacity-60">{countFor(status)}</span>
           </button>
         ))}
       </div>
