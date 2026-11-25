@@ -111,23 +111,26 @@ export default function AdminOrders() {
         {total} {total === 1 ? "order" : "orders"} in the store
       </p>
 
-      <div className="mt-8 flex items-center gap-3">
-        <label htmlFor="status-filter" className="text-sm text-muted">
-          Status
-        </label>
-        <select
-          id="status-filter"
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="border border-line bg-canvas px-3 py-2 text-sm text-muted focus:border-ink"
-        >
-          <option value="all">All statuses</option>
-          {STATUSES.map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
+      <div
+        className="mt-8 flex flex-wrap items-center gap-3"
+        role="group"
+        aria-label="Filter orders by status"
+      >
+        {["all", ...STATUSES].map((status) => (
+          <button
+            key={status}
+            type="button"
+            aria-pressed={statusFilter === status}
+            onClick={() => setStatusFilter(status)}
+            className={`rounded-full px-4 py-2 text-sm transition-colors ${
+              statusFilter === status
+                ? "border border-ink bg-ink text-white"
+                : "border border-line text-muted hover:border-ink"
+            }`}
+          >
+            {status === "all" ? "All" : status.charAt(0).toUpperCase() + status.slice(1)}
+          </button>
+        ))}
       </div>
 
       <div className="mt-8 flex items-center justify-between">
