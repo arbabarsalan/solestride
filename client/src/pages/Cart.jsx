@@ -109,7 +109,9 @@ export default function Cart() {
           <path d="M18 16v-2a6 6 0 0 1 12 0v2" strokeLinecap="round" />
         </svg>
         <h1 className="mt-6 text-3xl font-semibold">Your cart is empty</h1>
-        <p className="mt-3 text-muted">Fill it with something you will love.</p>
+        <p className="mt-3 text-muted">
+          Kurtas, kameez shalwar, unstitched fabric and accessories are one page away.
+        </p>
         <Link
           to="/shop"
           className="mt-8 inline-block rounded-full border border-ink bg-ink px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-accent"
