@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { api, ApiError } from "../lib/api.js";
 import { formatPKR } from "../lib/format.js";
@@ -69,6 +69,22 @@ export default function Checkout() {
   const [placing, setPlacing] = useState(false);
   const [error, setError] = useState("");
   const [placed, setPlaced] = useState(null);
+  // Online (card) payments only show up once the server confirms a Stripe
+  // key is configured; until then checkout stays cash-on-delivery only.
+  const [onlinePayments, setOnlinePayments] = useState(false);
+
+  useEffect(() => {
+    let live = true;
+    api
+      .get("/health")
+      .then((data) => {
+        if (live) setOnlinePayments(Boolean(data.payments?.online_configured));
+      })
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, []);
 
   if (!user) return <Navigate to="/login" replace />;
 
@@ -249,17 +265,24 @@ export default function Checkout() {
                 />
                 Cash on delivery
               </label>
-              <label className="flex cursor-pointer items-center gap-3 text-sm">
-                <input
-                  type="radio"
-                  name="payment"
-                  value="stripe"
-                  checked={paymentMethod === "stripe"}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                />
-                Card (Stripe, test mode)
-              </label>
+              {onlinePayments && (
+                <label className="flex cursor-pointer items-center gap-3 text-sm">
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="stripe"
+                    checked={paymentMethod === "stripe"}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                  />
+                  Card (Stripe, test mode)
+                </label>
+              )}
             </div>
+            {!onlinePayments && (
+              <p className="mt-3 text-xs text-muted">
+                Online payments are coming soon. Cash on delivery is available.
+              </p>
+            )}
           </fieldset>
 
           <div className="border border-line bg-canvas p-4">
