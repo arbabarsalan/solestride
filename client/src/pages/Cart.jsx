@@ -118,6 +118,14 @@ export default function Cart() {
         >
           Browse the shop
         </Link>
+        <p className="mt-4">
+          <Link
+            to="/account/orders"
+            className="text-sm text-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
+          >
+            Track a past order
+          </Link>
+        </p>
       </div>
     );
   }
