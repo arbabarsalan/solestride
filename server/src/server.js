@@ -9,6 +9,7 @@ const adminOrderRoutes = require("./routes/adminOrders");
 const cartRoutes = require("./routes/cart");
 const checkoutRoutes = require("./routes/checkout");
 const paymentRoutes = require("./routes/payments");
+const stripe = require("./lib/stripe");
 
 const app = express();
 
@@ -19,7 +20,10 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "../../public")));
 
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok" });
+  res.json({
+    status: "ok",
+    payments: { online_configured: stripe.configured() },
+  });
 });
 
 app.use("/api/auth", authRoutes);
