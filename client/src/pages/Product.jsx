@@ -102,6 +102,9 @@ export default function Product() {
                 </button>
               ))}
             </div>
+            <p className="mt-3 text-xs text-muted">
+              True to size. Between sizes? Take the larger.
+            </p>
           </div>
 
           <button
