@@ -133,9 +133,11 @@ export default function Product() {
           )}
 
           {lowStock && (
-            <p className="mt-3 inline-block border border-line px-2 py-1 text-xs text-accent">
-              Only {product.stock} left
-            </p>
+            <p className="mt-3 text-xs text-accent">Only {product.stock} left</p>
+          )}
+
+          {!soldOut && !lowStock && (
+            <p className="mt-3 text-xs text-muted">In stock, ready to ship</p>
           )}
 
           <div className="mt-10 border-t border-line pt-8">
