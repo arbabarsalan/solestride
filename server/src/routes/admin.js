@@ -86,6 +86,10 @@ function readProductBody(body) {
     const imageUrl = String(b.image_url).trim();
     fields.image_url = imageUrl || null;
   }
+  if (b.is_active !== undefined) {
+    if (typeof b.is_active !== "boolean") errors.push("is_active must be true or false");
+    else fields.is_active = b.is_active;
+  }
   if (b.slug !== undefined) {
     const slug = slugify(b.slug);
     if (!slug) errors.push("slug is invalid");

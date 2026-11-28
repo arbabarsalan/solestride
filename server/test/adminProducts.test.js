@@ -158,6 +158,28 @@ test("edit a product that does not exist is a 404", async () => {
   }
 });
 
+test("restore works with is_active alone", async () => {
+  stubPool((sql) => {
+    if (sql.startsWith("UPDATE products SET is_active = $1")) {
+      return { rows: [{ id: 21 }] };
+    }
+    if (sql.startsWith("SELECT p.id, p.category_id")) {
+      return { rows: [{ ...createdRow, is_active: true }] };
+    }
+    throw new Error(`unexpected sql: ${sql}`);
+  });
+  try {
+    const res = await call("PATCH", "/api/admin/products/21", {
+      token: adminToken,
+      body: { is_active: true },
+    });
+    assert.equal(res.status, 200);
+    assert.equal(res.body.product.is_active, true);
+  } finally {
+    unstub();
+  }
+});
+
 test("delete archives the product instead of removing it", async () => {
   stubPool((sql, params) => {
     if (sql.startsWith("UPDATE products SET is_active = false")) {
