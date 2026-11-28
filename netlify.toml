@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build --prefix client"
+  command = "npm run build --prefix client && cp public/assets/*.jpg client/dist/assets/"
   publish = "client/dist"
   functions = "netlify/functions"
 
