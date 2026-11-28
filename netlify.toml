@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build --prefix client"
+  publish = "client/dist"
+  functions = "netlify/functions"
+
+# Everything under /api goes to the single Express-backed function.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback for the React client.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

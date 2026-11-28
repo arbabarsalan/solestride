@@ -35,13 +35,19 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/checkout", checkoutRoutes);
 app.use("/api/orders", require("./routes/orders"));
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`libas server listening on port ${PORT}`);
-});
+// Start the HTTP server only when run directly; the serverless wrapper
+// imports the app without binding a port.
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`libas server listening on port ${PORT}`);
+  });
+}
 
 // Central error handler: multer rejections and anything unexpected come back as JSON.
 app.use((err, _req, res, _next) => {
   const status = err.code === "LIMIT_FILE_SIZE" ? 413 : 400;
   res.status(status).json({ error: err.message || "Request failed" });
 });
+
+module.exports = app;
