@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { api, ApiError } from "../lib/api.js";
 import { formatPKR } from "../lib/format.js";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -108,7 +108,15 @@ export default function AdminOrders() {
 
   return (
     <div className="mx-auto max-w-shell px-6 py-16">
-      <h1 className="text-3xl font-semibold">Orders</h1>
+      <nav className="flex gap-6 text-sm" aria-label="Admin">
+        <span className="font-medium text-ink underline underline-offset-4" aria-current="page">
+          Orders
+        </span>
+        <Link to="/admin/products" className="text-muted transition-colors hover:text-ink">
+          Products
+        </Link>
+      </nav>
+      <h1 className="mt-4 text-3xl font-semibold">Orders</h1>
       <p className="mt-1 text-sm text-muted">
         {total} {total === 1 ? "order" : "orders"} in the store
       </p>

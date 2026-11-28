@@ -35,6 +35,31 @@ router.get("/", async (req, res) => {
   }
 });
 
+// GET /api/products/:id/image
+// Serves an uploaded product photo from the database (set by the admin image
+// upload route). Defined before /:slug so numeric ids match here first.
+router.get("/:id/image", async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(404).json({ error: "Product not found" });
+  }
+  try {
+    const { rows } = await pool.query(
+      `SELECT mime, data FROM product_images WHERE product_id = $1 LIMIT 1`,
+      [id]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Image not found" });
+    }
+    res.set("Content-Type", rows[0].mime);
+    res.set("Cache-Control", "public, max-age=300");
+    res.send(rows[0].data);
+  } catch (err) {
+    console.error("product image failed:", err.message);
+    res.status(500).json({ error: "Could not load product image" });
+  }
+});
+
 // GET /api/products/:slug
 // Public product detail, addressed by slug so URLs stay clean.
 router.get("/:slug", async (req, res) => {
